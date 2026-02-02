@@ -1,0 +1,1 @@
+// This component has been replaced by Dashboard StatusPills
