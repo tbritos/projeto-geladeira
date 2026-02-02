@@ -3,6 +3,9 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, History, Settings, LogOut, Menu, X, Box, Moon, Sun } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
+// Importando a logo corretamente para processamento do Vite
+import logoImg from '../src/assets/logobranca.svg';
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -25,7 +28,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 w-full z-50 glass-panel border-b border-slate-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src="/src/assets/Group 41.svg" alt="Tupã" className="w-8 h-8" />
+          {/* Troca de caminho estático por variável importada */}
+          <img src={logoImg} alt="Tupã" className="w-8 h-8" />
           <span className="font-bold text-lg tracking-tight">Tupã</span>
         </div>
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 text-slate-300">
@@ -41,7 +45,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="p-8">
           <div className="flex items-center gap-3 mb-10">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20 overflow-hidden">
-              <img src="/src/assets/Group 41.svg" alt="Tupã" className="w-6 h-6" />
+              {/* Troca de caminho estático por variável importada */}
+              <img src={logoImg} alt="Tupã" className="w-6 h-6" />
             </div>
             <div>
               <h1 className="font-bold text-xl tracking-tight leading-none text-white">Tupã</h1>
