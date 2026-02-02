@@ -37,7 +37,7 @@ const Welcome: React.FC = () => {
         {/* Greeting Icon */}
         <div className="mb-8 animate-bounce" style={{ animationDuration: '2s' }}>
           <div className="w-24 h-24 rounded-full flex items-center justify-center glow-primary bg-slate-900/20 overflow-hidden">
-            <img src="/src/assets/Group 43.svg" alt="Tupã" className="w-16 h-16" />
+            <img src="/src/assets/Group 41.svg" alt="Tupã" className="w-16 h-16" />
           </div>
         </div>
 
