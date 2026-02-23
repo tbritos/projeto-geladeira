@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id          Int                  @id @default(autoincrement())
+  name        String
+  slug        String               @unique
+  tradeName   String?
+  legalName   String?
+  cnpj        String?              @unique
+  accountStatus String             @default("ACTIVE")
+  isActive    Boolean              @default(true)
+  deletedAt   DateTime?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  users       Membership[]
+  devices     Device[]
+  readings    Reading[]
+  temperature TemperatureSetting?
+}
+
+model User {
+  id           Int             @id @default(autoincrement())
+  username     String          @unique
+  email        String?         @unique
+  fullName     String?
+  passwordHash String          @default("")
+  displayName  String?
+  phone        String?
+  profilePhoto String?
+  accountStatus String         @default("ACTIVE")
+  lastLoginAt  DateTime?
+  platformRole String          @default("USER")
+  isActive     Boolean         @default(true)
+  deletedAt    DateTime?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  memberships  Membership[]
+}
+
+model Membership {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  tenantId  Int
+  role      String           @default("VIEWER")
+  deletedAt DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant    Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tenantId])
+}
+
+model Device {
+  id         Int       @id @default(autoincrement())
+  tenantId   Int
+  externalId String    @unique
+  name       String
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  tenant     Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  readings   Reading[]
+}
+
+model Reading {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  temperature Float
+  humidity    Float
+  relayState  Boolean  @default(false)
+  doorOpen    Boolean  @default(false)
+  powerOk     Boolean  @default(true)
+  tenantId    Int
+  deviceId    Int?
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  device      Device?  @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId, createdAt])
+}
+
+model TemperatureSetting {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int      @unique
+  minTemp   Float
+  maxTemp   Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}

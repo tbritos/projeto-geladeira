@@ -1,0 +1,5 @@
+{
+  "name": "Tupã",
+  "description": "A comprehensive monitoring dashboard for the Tupã system, featuring real-time temperature tracking, door status monitoring, and remote control capabilities.",
+  "requestFramePermissions": []
+}
